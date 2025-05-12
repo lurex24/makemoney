@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spin & Win!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .wheel-container {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .wheel {
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      border: 10px solid #fff;
+      border-radius: 50%;
+      background: conic-gradient(#ffcc00 0% 25%, #ffffff 25% 50%, #ffcc00 50% 75%, #ffffff 75% 100%);
+      transition: transform 3s ease-out;
+    }
+
+    #spinBtn {
+      background-color: #ffcc00;
+      color: #000;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+      display: none;
+    }
+
+    #claimBtn {
+      background-color: #00ff88;
+      color: #000;
+      padding: 12px 25px;
+      font-size: 18px;
+      text-decoration: none;
+      border-radius: 10px;
+      display: none;
+      margin-top: 20px;
+    }
+
+    .countdown {
+      font-size: 16px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wheel-container">
+    <h1>🎁 Spin the Wheel & Win a Surprise!</h1>
+    <div class="wheel" id="wheel"></div>
+    <button id="spinBtn">SPIN NOW</button>
+    <div id="result">You Won! 🎉</div>
+    <a id="claimBtn" href="https://t.co/qkdCbh5cwu" target="_blank">Claim Your Reward</a>
+    <div class="countdown">Offer expires in: <span id="timer">30</span> seconds</div>
+  </div>
+
+  <script>
+    const wheel = document.getElementById('wheel');
+    const spinBtn = document.getElementById('spinBtn');
+    const result = document.getElementById('result');
+    const claimBtn = document.getElementById('claimBtn');
+    const timerDisplay = document.getElementById('timer');
+    let spinning = false;
+
+    spinBtn.addEventListener('click', () => {
+      if (spinning) return;
+      spinning = true;
+      const rotation = 3600 + Math.floor(Math.random() * 360); // 10+ spins
+      wheel.style.transform = `rotate(${rotation}deg)`;
+
+      setTimeout(() => {
+        result.style.display = 'block';
+        claimBtn.style.display = 'inline-block';
+        spinBtn.style.display = 'none';
+      }, 3000);
+    });
+
+    // Countdown timer
+    let timeLeft = 30;
+    const countdown = setInterval(() => {
+      timeLeft--;
+      timerDisplay.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        timerDisplay.textContent = "Expired!";
+        spinBtn.disabled = true;
+        spinBtn.innerText = "Time's Up!";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
